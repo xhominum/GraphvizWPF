@@ -19,7 +19,7 @@ namespace Graphviz4Net.WPF.Example
             this.AddNewPerson.Click += AddNewPersonClick;
 			this.UpdatePerson.Click += UpdatePersonClick;
             this.AddNote.Click += AddNote_Click;
-            //NewWindowHandler();
+            NewWindowHandler();
             SimpleLogger.Logger.LoggerHandlerManager
             .AddHandler(new ConsoleLoggerHandler())
             .AddHandler(new FileLoggerHandler())

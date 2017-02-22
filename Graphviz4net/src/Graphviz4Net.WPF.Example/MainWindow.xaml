@@ -6,6 +6,7 @@
         xmlns:Example="clr-namespace:Graphviz4Net.WPF.Example" 
         xmlns:WPF="clr-namespace:Graphviz4Net.WPF;assembly=Graphviz4Net.WPF" 
         xmlns:ViewModels="clr-namespace:Graphviz4Net.WPF.ViewModels;assembly=Graphviz4Net.WPF" 
+        xmlns:custom="clr-namespace:PostSharp.Samples.CustomLogging.Helpers;assembly=PostSharp.Samples.CustomLogging"
         Title="Contacts visualization with Graphiz4Net and WPF" 
         Height="{Binding WindowHeight, Mode=OneWayToSource}" 
         Width="{Binding WindowWidth, Mode=OneWayToSource}">
