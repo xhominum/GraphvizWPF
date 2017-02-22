@@ -172,6 +172,7 @@ namespace Graphviz4Net.WPF.Example
 
     public class SubGraphItem
     {
+        public int HashCode { get; set; }
         public string ClassName { get; set; }
         public SubGraph<IVertice> _subGraph;
         public Color _color;
@@ -181,8 +182,86 @@ namespace Graphviz4Net.WPF.Example
     {
         public MainWindowViewModel()
         {
+            InitGraphNoCluster();
+            this.NewPersonName = "Enter new name";
+            this.UpdatePersonNewName = "Enter new name";
+        }
+
+        private void InitGraphWithCluster()
+        {
             var graph = new Graph<IVertice>();
 
+            var allItems = Database.Instance.FindAll();
+
+            var groupedByHashCode = from item in allItems
+                                    group new { item.ClassName, item.Name, item.ParentClass, item.ParentMethod } by item.HashCode
+                                    into g
+                                    select new { HashCode = g.Key, Calls = g.Distinct().ToList() };
+
+            var groupedByHashCode2 = groupedByHashCode.Where(x => x.Calls.Count() > 2 && x.HashCode != -1);
+
+            //var toBeGrouped = groupedByHashCode2.Select(e => new { HashCode = e.HashCode, ClassName = e.Calls.First().ClassName }).Distinct();
+
+            var uniqueItems = allItems.Select(e => new {  Name = e.Name, ClassName = e.ClassName }).Distinct();
+            var uniqueItems2 = allItems.Select(e => new {  Name = e.ParentMethod, ClassName = e.ParentClass }).Distinct();
+
+            var union1 = uniqueItems.Concat(uniqueItems2).Distinct();
+
+            List<SubGraphItem> subGraphItems = new List<SubGraphItem>();
+
+            Random rnd = new Random();
+            foreach (var inst in groupedByHashCode2)
+            {
+                var subGraph = new SubGraph<IVertice> { Label = inst.HashCode.ToString() + ":" + inst.Calls.First().ClassName };
+                graph.AddSubGraph(subGraph);
+                var color = Color.FromArgb((byte)rnd.Next(255), (byte)rnd.Next(255), (byte)rnd.Next(255), (byte)rnd.Next(255));
+                SolidColorBrush solid = new SolidColorBrush(color);
+                foreach (var item in inst.Calls)
+                {
+                    var verticeName = item.ClassName + ":" + item.Name;
+                    var el = new Person(graph) { VerticeName = verticeName, ClassName = item.ClassName, MethodName = item.Name, ItemColor = solid };
+                    subGraph.AddVertex(el);
+                }
+            }
+
+            List<VertexItem> vItems = new List<VertexItem>();
+
+            foreach (var item in union1)
+            {
+                var verticeName = item.ClassName + ":" + item.Name;
+                var el = new Person(graph) { VerticeName = verticeName, ClassName = item.ClassName, MethodName = item.Name, ItemColor = new SolidColorBrush(Color.FromRgb(255,255,255)) };
+                var vi = new VertexItem { VerticeName = verticeName, p = el };
+                vItems.Add(vi);
+
+              
+                //sub._subGraph.AddVertex(el);
+                graph.AddVertex(el);
+            }
+
+            foreach (var item in union1)
+            {
+                try
+                {
+                    var verticeName = item.ClassName + ":" + item.Name;
+                    var src = vItems.First(x => x.VerticeName.Equals(verticeName));
+                    var dest = allItems.First(x => x.ClassName.Equals(item.ClassName) && x.Name.Equals(item.Name));
+                    var destVersticeName = dest.ParentClass + ":" + dest.ParentMethod;
+                    var dest2 = vItems.First(x => x.VerticeName.Equals(destVersticeName));
+                    graph.AddEdge(new Edge<IVertice>(dest2.p, src.p));
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.Write("bug");
+                }
+            }
+
+            this.Graph = graph;
+            this.Graph.Changed += GraphChanged;
+        }
+
+        private void InitGraphNoCluster()
+        {
+            var graph = new Graph<IVertice>();
 
             var allItems = Database.Instance.FindAll();
 
@@ -194,7 +273,6 @@ namespace Graphviz4Net.WPF.Example
             var listClassNames = union1.Select(x => x.ClassName).Distinct();
 
             List<SubGraphItem> subGraphItems = new List<SubGraphItem>();
-
 
             Random rnd = new Random();
             foreach (var className in listClassNames)
@@ -238,65 +316,11 @@ namespace Graphviz4Net.WPF.Example
                 }
             }
 
-            
-
-
-
-            //var a = new Person(graph) { VerticeName = "Jonh", Comment = "Test", Avatar = "./Avatars/avatar1.jpg" };
-            //var b = new Person(graph) { VerticeName = "Michael", Avatar = "./Avatars/avatar2.gif" };
-            //var c = new Person(graph) { VerticeName = "Kenny" };
-            //var d = new Person(graph) { VerticeName = "Lisa" };
-            //var e = new Person(graph) { VerticeName = "Lucy", Avatar = "./Avatars/avatar3.jpg" };
-            //var f = new Person(graph) { VerticeName = "Ted Mosby" };
-            //var g = new Person(graph) { VerticeName = "Glen" };
-            //var h = new Person(graph) { VerticeName = "Alice", Avatar = "./Avatars/avatar1.jpg" };
-
-            //var un = new Person(graph) { VerticeName = "AAAAAAAAAAAA"};
-
-            //graph.AddVertex(a);
-            //graph.AddVertex(b);
-            //graph.AddVertex(c);
-            //graph.AddVertex(d);
-            //graph.AddVertex(e);
-            //graph.AddVertex(f);
-            //graph.AddVertex(un);
-
-            //var subGraph = new SubGraph<IVertice> { Label = "Work" };
-            //graph.AddSubGraph(subGraph);
-            //subGraph.AddVertex(g);
-            //subGraph.AddVertex(h);
-            //graph.AddEdge(new Edge<IVertice>(g, h));
-            //graph.AddEdge(new Edge<IVertice>(a, g));
-
-            //var subGraph5 = new SubGraph<IVertice> { Label = "Testtest" };
-            //graph.AddSubGraph(subGraph5);
-            //var loner5 = new Person(graph) { VerticeName = "Loner5", Avatar = "./Avatars/avatar1.jpg" };
-            //subGraph5.AddVertex(loner5);
-
-
-            //var subGraph2 = new SubGraph<IVertice> {Label = "School"};
-            //graph.AddSubGraph(subGraph2);
-            //var loner = new Person(graph) { VerticeName = "Loner", Avatar = "./Avatars/avatar1.jpg" };
-            //subGraph2.AddVertex(loner);
-            //var loner2 = new Person(graph) { VerticeName = "Loneddddddddr2", Avatar = "./Avatars/avatar1.jpg" };
-            //subGraph2.AddVertex(loner2);
-            //graph.AddEdge(new Edge<SubGraph<IVertice>>(subGraph, subGraph2) { Label = "Link between groups" } );
-
-            //graph.AddEdge(new Edge<IVertice>(c, d) { Label = "In love", DestinationArrowLabel = "boyfriend", SourceArrowLabel = "girlfriend" });
-
-            //graph.AddEdge(new Edge<IVertice>(c, g, new Arrow(), new Arrow()));
-            //graph.AddEdge(new Edge<IVertice>(c, a, new Arrow()) { Label = "Boss" });
-            //graph.AddEdge(new Edge<IVertice>(d, h, new DiamondArrow(), new DiamondArrow()));
-            //graph.AddEdge(new Edge<IVertice>(f, h, new DiamondArrow(), new DiamondArrow()));
-            //graph.AddEdge(new Edge<IVertice>(f, loner, new DiamondArrow(), new DiamondArrow()));
-            //graph.AddEdge(new Edge<IVertice>(f, b, new DiamondArrow(), new DiamondArrow()));
-            //graph.AddEdge(new Edge<IVertice>(e, g, new Arrow(), new Arrow()) { Label = "Siblings" });
-
             this.Graph = graph;
-            this.Graph.Changed += GraphChanged;
-            this.NewPersonName = "Enter new name";
-        	this.UpdatePersonNewName = "Enter new name";
+            this.Graph.Changed += GraphChanged;    
         }
+
+        
 
         
 

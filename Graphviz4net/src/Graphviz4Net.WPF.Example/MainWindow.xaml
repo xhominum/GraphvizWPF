@@ -7,9 +7,11 @@
         xmlns:WPF="clr-namespace:Graphviz4Net.WPF;assembly=Graphviz4Net.WPF" 
         xmlns:ViewModels="clr-namespace:Graphviz4Net.WPF.ViewModels;assembly=Graphviz4Net.WPF" 
         xmlns:custom="clr-namespace:PostSharp.Samples.CustomLogging.Helpers;assembly=PostSharp.Samples.CustomLogging"
+        xmlns:ZoomAndPan="clr-namespace:ZoomAndPan;assembly=ZoomAndPan"
         Title="Contacts visualization with Graphiz4Net and WPF" 
         Height="{Binding WindowHeight, Mode=OneWayToSource}" 
-        Width="{Binding WindowWidth, Mode=OneWayToSource}">
+        Width="{Binding WindowWidth, Mode=OneWayToSource}"
+        FocusManager.FocusedElement="{Binding ElementName=scroller}">
     <Window.Resources>
         <DataTemplate DataType="{x:Type Example:Person}">
             <Border BorderBrush="Black" BorderThickness="1" Padding="10" CornerRadius="5" Background="White">
@@ -135,8 +137,28 @@
 				<Button Margin="0, 0, 0, 10" x:Name="UpdatePerson">Update</Button>
 			</StackPanel>
         </StackPanel>
-        
-        <Controls:ZoomControl Grid.Column="0" Grid.Row="1">
+
+        <!--
+    Wrap the ZoomAndPanControl in a ScrollViewer.
+    When the scaled content that is displayed in ZoomAndPanControl is larger than the viewport onto the content
+    ScrollViewer's scrollbars can be used to manipulate the offset of the viewport.    
+    -->
+        <ScrollViewer
+        x:Name="scroller"
+        CanContentScroll="True"
+        VerticalScrollBarVisibility="Visible"
+        HorizontalScrollBarVisibility="Visible"
+        >
+            <ZoomAndPan:ZoomAndPanControl
+            x:Name="zoomAndPanControl"
+            Background="LightGray"
+            MouseDown="zoomAndPanControl_MouseDown"
+            MouseUp="zoomAndPanControl_MouseUp"
+            MouseMove="zoomAndPanControl_MouseMove"
+            MouseWheel="zoomAndPanControl_MouseWheel"
+   
+            MouseDoubleClick="zoomAndPanControl_MouseDoubleClick"
+            >
             <WPF:GraphLayout 
                 UseContentPresenterForAllElements="True"
                 LogGraphvizOutput="True"
@@ -154,6 +176,9 @@
                     </Style>
                 </WPF:GraphLayout.Resources>
             </WPF:GraphLayout>
-        </Controls:ZoomControl>
+
+               
+        </ZoomAndPan:ZoomAndPanControl>
+        </ScrollViewer>
     </Grid>
 </Window>
