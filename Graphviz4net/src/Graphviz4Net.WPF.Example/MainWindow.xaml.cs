@@ -1,4 +1,6 @@
 ﻿
+using PostSharp.Samples.CustomLogging.Helpers;
+
 namespace Graphviz4Net.WPF.Example
 {
     using System.Threading;
@@ -25,12 +27,12 @@ namespace Graphviz4Net.WPF.Example
             .AddHandler(new FileLoggerHandler())
             .AddHandler(new DebugConsoleLoggerHandler());
 
-            Logger.Log("test log");
         }
 
         private void AddNote_Click(object sender, RoutedEventArgs e)
         {
-            this.viewModel.CreateNote();
+            //this.viewModel.CreateNote();
+            Database.Instance.Save();
         }
 
         void UpdatePersonClick(object sender, RoutedEventArgs e)

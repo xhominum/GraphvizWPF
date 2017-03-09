@@ -68,6 +68,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IVertice.cs" />
+    <Compile Include="LogItemVertice.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="UserNote.xaml.cs">
       <DependentUpon>UserNote.xaml</DependentUpon>
@@ -124,10 +125,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\AppSpy\PostSharp.Samples.CustomLogging\PostSharp.Samples.CustomLogging.csproj">
-      <Project>{c943df92-512e-4488-83c0-96dd10ca9854}</Project>
-      <Name>PostSharp.Samples.CustomLogging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Graphviz4Net.Core\Graphviz4Net.Core.csproj">
       <Project>{903CE537-66BF-4867-BE5C-DB8958F5E1B3}</Project>
       <Name>Graphviz4Net.Core</Name>
@@ -135,6 +132,14 @@
     <ProjectReference Include="..\Graphviz4Net.WPF\Graphviz4Net.WPF.csproj">
       <Project>{EE5D79D6-D196-4345-A271-DC2E79E26DDA}</Project>
       <Name>Graphviz4Net.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NamedPipeWrapper\NamedPipeWrapper.csproj">
+      <Project>{73152691-3cde-46df-8d04-7117747dffe7}</Project>
+      <Name>NamedPipeWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostSharp.Samples.CustomLogging\PostSharp.Samples.CustomLogging.csproj">
+      <Project>{C943DF92-512E-4488-83C0-96DD10CA9854}</Project>
+      <Name>PostSharp.Samples.CustomLogging</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">
       <Project>{cf8c9230-cc66-43df-8070-01eb53978b5e}</Project>

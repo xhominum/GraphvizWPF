@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLogger", "SimpleLogge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NamedPipeWrapper", "NamedPipeWrapper\NamedPipeWrapper.csproj", "{73152691-3CDE-46DF-8D04-7117747DFFE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostSharp.Samples.CustomLogging", "..\..\..\..\AppSpy\PostSharp.Samples.CustomLogging\PostSharp.Samples.CustomLogging.csproj", "{C943DF92-512E-4488-83C0-96DD10CA9854}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostSharp.Samples.CustomLogging", "PostSharp.Samples.CustomLogging\PostSharp.Samples.CustomLogging.csproj", "{C943DF92-512E-4488-83C0-96DD10CA9854}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

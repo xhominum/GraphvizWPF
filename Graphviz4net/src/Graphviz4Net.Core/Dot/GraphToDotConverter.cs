@@ -81,6 +81,7 @@ namespace Graphviz4Net.Dot
                     idsMap.Add(vertex, nodesMap.Count);
                     nodesMap.Add(vertex);
                 }
+
                 writer.Indent--;
                 writer.WriteLine("}; ");
             }

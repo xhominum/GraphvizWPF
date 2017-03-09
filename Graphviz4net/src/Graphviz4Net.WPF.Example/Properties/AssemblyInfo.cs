@@ -3,6 +3,7 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
+using PostSharp.Samples.CustomLogging.Aspects;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -53,3 +54,40 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+
+
+[assembly: LogMethod(AttributePriority = 0)]
+
+[assembly:
+    LogMethod(AttributePriority = 1, AttributeExclude = true,
+        AttributeTargetTypes = "PostSharp.Samples.CustomLogging.Aspects.*")]
+
+[assembly:
+    LogMethod(AttributePriority = 1, AttributeExclude = true,
+        AttributeTargetTypes = "PostSharp.Samples.CustomLogging.Helpers.*")]
+
+
+
+//[assembly: LogSetValue(AttributePriority = 0)]
+
+//[assembly:
+//    LogSetValue(AttributePriority = 1, AttributeExclude = true,
+//        AttributeTargetTypes = "PostSharp.Samples.CustomLogging.Aspects.*")]
+
+//[assembly:
+//    LogSetValue(AttributePriority = 1, AttributeExclude = true,
+//        AttributeTargetTypes = "PostSharp.Samples.CustomLogging.Helpers.*")]
+
+//[assembly: LogEvent(AttributePriority = 0)]
+
+//[assembly:
+//    LogEvent(AttributePriority = 1, AttributeExclude = true,
+//        AttributeTargetTypes = "PostSharp.Samples.CustomLogging.Aspects.*")]
+
+//[assembly:
+//    LogEvent(AttributePriority = 1, AttributeExclude = true,
+//        AttributeTargetTypes = "PostSharp.Samples.CustomLogging.Helpers.*")]
+
+
+

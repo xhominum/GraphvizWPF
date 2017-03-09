@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
+using PostSharp.Samples.CustomLogging.Aspects;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -47,3 +48,16 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+// Add logging to every method in the assembly.
+//[assembly: LogMethod(AttributePriority = 0)]
+
+//// Remove logging from the Aspects namespace to avoid infinite recursions (logging would log itself).
+
+//[assembly:
+//    LogMethod(AttributePriority = 1, AttributeExclude = true,
+//        AttributeTargetTypes = "PostSharp.Samples.CustomLogging.Aspects.*")]
+
+//[assembly:
+//    LogMethod(AttributePriority = 1, AttributeExclude = true,
+//        AttributeTargetTypes = "PostSharp.Samples.CustomLogging.Helpers.*")]

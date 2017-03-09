@@ -7,6 +7,6 @@ namespace Graphviz4Net.WPF.Example
 {
     public interface IVertice
     {
-         string VerticeName { get; set; }
+         string VerticeName { get; }
     }
 }

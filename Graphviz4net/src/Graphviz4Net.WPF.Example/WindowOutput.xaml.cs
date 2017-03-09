@@ -64,7 +64,7 @@ namespace Graphviz4Net.WPF.Example
 
         public WindowOutput()
         {
-            _logItems = Database.Instance.FindAll().ToList();
+            _logItems = ReadDatabase.Instance.FindAll().ToList();
             InitializeComponent();
             
             
